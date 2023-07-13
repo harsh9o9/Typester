@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700&display=swap");
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 62.5%;
+  --yellow: #e2b734;
+  --bg-color: #323437;
+  --nav-bg: #2c2e31;
+  --words-light: rgba(235, 235, 235, 0.3);
+}
+
+body {
+  font-size: 1.6rem;
+  background-color: var(--bg-color);
+  font-family: "Roboto Mono", monospace;
+}
+
+.nav {
+  background-color: var(--nav-bg);
+  color: var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.nav svg {
+  font-size: 3rem;
+  margin-left: 1rem;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80dvh;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.wordsContainer {
+  width: 80%;
+  font-size: 2.3rem;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  color: var(--words-light);
+  font-weight: 500;
+}
+
+.user-input {
+  width: 75%;
+  border: 0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  outline: none;
+  height: 5rem;
+  background-color: var(--nav-bg);
+  caret-color: transparent;
+  font-family: inherit;
+  font-size: 2.3rem;
+  color: var(--words-light);
+  font-weight: 600;
+  text-align: center;
+}
