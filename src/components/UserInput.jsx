@@ -1,5 +1,7 @@
+import { useEffect } from "react";
+
 /* eslint-disable jsx-a11y/no-autofocus */
-let startTimer = true;
+let startTimer;
 
 const UserInput = ({
   userKeysStack,
@@ -8,11 +10,18 @@ const UserInput = ({
   setLetters,
   time,
   setTime,
+  totalCharactersTyped,
+  setTotalCharactersTyped,
+  totalMistakes,
+  setTotalMistakes,
+  inputRef,
 }) => {
+  useEffect(() => {
+    startTimer = true;
+  }, []);
+
   const handleKeyPress = (event) => {
     let updatedStack;
-    console.log(event);
-    // debugger;
     const { key } = event;
 
     if (key === "Backspace") {
@@ -24,7 +33,7 @@ const UserInput = ({
     } else if (key.length === 1) {
       updatedStack = [...userKeysStack, key];
       setUserKeysStack(updatedStack);
-      console.log(updatedStack);
+      setTotalCharactersTyped(++totalCharactersTyped);
     }
     // to start timer when first key is pressed
     if (startTimer) {
@@ -36,18 +45,22 @@ const UserInput = ({
 
     // handle all key checking, right wrong logic
     let copyLetters = letters;
+    let tempMistakes = 0;
     for (let i = 0; i < letters.length; i++) {
-      console.log(copyLetters, updatedStack);
       if (i < updatedStack.length) {
         if (copyLetters[i].letter === updatedStack[i]) {
-          copyLetters[i].colorState = "active";
+          copyLetters[i].colorState =
+            i == updatedStack.length - 1 ? "active cursor" : "active";
         } else {
-          copyLetters[i].colorState = "error";
+          tempMistakes++;
+          copyLetters[i].colorState =
+            i == updatedStack.length - 1 ? "error cursor" : "error";
         }
       } else {
         copyLetters[i].colorState = "inactive";
       }
     }
+    if (tempMistakes >= totalMistakes) setTotalMistakes(tempMistakes);
     setLetters(copyLetters);
   };
 
@@ -57,6 +70,7 @@ const UserInput = ({
       className="user-input"
       type="text"
       onKeyDown={handleKeyPress}
+      ref={inputRef}
     />
   );
 };
