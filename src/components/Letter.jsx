@@ -1,5 +1,5 @@
-const Letter = ({ letter }) => {
-  return <span className="letter">{letter}</span>;
+const Letter = ({ letter, colorState }) => {
+  return <span className={"letter " + colorState}>{letter}</span>;
 };
 
 export default Letter;

@@ -8,7 +8,6 @@ import Body from "./components/Body";
 const App = () => {
   return (
     <>
-      {/* <Classp /> */}
       <Header />
       <Body />
     </>

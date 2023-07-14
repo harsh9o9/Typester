@@ -13,13 +13,16 @@
   --yellow: #e2b734;
   --bg-color: #323437;
   --nav-bg: #2c2e31;
-  --words-light: rgba(235, 235, 235, 0.3);
+  --text-inactive: rgba(235, 235, 235, 0.3);
+  --text-error: #ca4754;
+  --text-active: #d1d0d5;
 }
 
 body {
   font-size: 1.6rem;
   background-color: var(--bg-color);
   font-family: "Roboto Mono", monospace;
+  min-height: 100dvh;
 }
 
 .nav {
@@ -38,23 +41,23 @@ body {
 
 .main {
   display: flex;
+  padding-top: 10rem;
   align-items: center;
-  justify-content: center;
-  min-height: 80dvh;
+  /* min-height: 88dvh; */
   flex-direction: column;
-  gap: 3rem;
+  gap: 5rem;
 }
 
-.wordsContainer {
+.lettersContainer {
   width: 80%;
-  font-size: 2.3rem;
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  color: var(--words-light);
+  font-size: 2.5rem;
+  text-align: center;
+  color: var(--text-inactive);
   font-weight: 500;
+}
+
+.space-char {
+  font-size: 3rem;
 }
 
 .user-input {
@@ -67,8 +70,20 @@ body {
   background-color: var(--nav-bg);
   caret-color: transparent;
   font-family: inherit;
-  font-size: 2.3rem;
-  color: var(--words-light);
+  font-size: 2.5rem;
+  color: var(--text-inactive);
   font-weight: 600;
   text-align: center;
+}
+
+.active {
+  color: var(--text-active);
+}
+
+.inactive {
+  color: var(--text-inactive);
+}
+
+.error {
+  color: var(--text-error);
 }

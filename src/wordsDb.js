@@ -1,4 +1,6 @@
-const words = [
+import { v4 as uuidv4 } from "uuid";
+
+export const words = [
   "the",
   "of",
   "to",
@@ -501,4 +503,64 @@ const words = [
   "pound",
 ];
 
-export default words;
+function _getRandomWords(words, count) {
+  let randomWords = [];
+  while (randomWords.length < count) {
+    const randomIndex = Math.floor(Math.random() * words.length);
+    const randomWord = words[randomIndex];
+    if (!randomWords.includes(randomWord)) {
+      randomWords.push(randomWord);
+    }
+  }
+  return randomWords;
+}
+
+function _convertWordsToLetters(words) {
+  return words.map((word) => {
+    let letters = [...word];
+    let lettersArray = letters.map((letter) => {
+      return { key: uuidv4(), letter: letter, colorState: "inactive" };
+    });
+    return { key: uuidv4(), word: word, letters: lettersArray };
+  });
+}
+
+export function getWords(totalWords, count) {
+  let randomWords = _getRandomWords(totalWords, count);
+  let finalWordsList = _convertWordsToLetters(randomWords);
+  return finalWordsList;
+}
+
+export function getLetters(totalWords, count) {
+  let randomWords = _getRandomWords(totalWords, count);
+  let finalWordsList = _getLettersArray(randomWords);
+  return finalWordsList;
+}
+
+function _getLettersArray(wordArray) {
+  var letterArray = [];
+
+  for (var i = 0; i < wordArray.length; i++) {
+    var word = wordArray[i];
+
+    for (var j = 0; j < word.length; j++) {
+      var letter = word[j];
+      let data = {
+        key: uuidv4(),
+        letter: letter,
+        colorState: "inactive",
+      };
+      letterArray.push(data);
+    }
+
+    if (i !== wordArray.length - 1) {
+      letterArray.push({
+        key: uuidv4(),
+        letter: " ",
+        colorState: "inactive",
+      });
+    }
+  }
+
+  return letterArray;
+}
