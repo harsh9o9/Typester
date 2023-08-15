@@ -66,25 +66,69 @@ body {
   background-color: var(--bg-color);
 }
 
+/* theme toggle btn */
+.checkbox {
+  opacity: 0;
+  position: absolute;
+}
+
+.checkbox-label {
+  background-color: #111;
+  width: 50px;
+  height: 26px;
+  border-radius: 50px;
+  position: relative;
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fa-moon {
+  color: #f1c40f;
+}
+
+.fa-sun {
+  color: #f39c12;
+}
+
+.checkbox-label .ball {
+  background-color: #fff;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+  transition: transform 0.2s linear;
+}
+
+.checkbox:checked + .checkbox-label .ball {
+  transform: translateX(24px);
+}
+
 .main {
   display: flex;
   padding-top: 10rem;
   align-items: center;
-  /* min-height: 88dvh; */
   flex-direction: column;
   gap: 5rem;
 }
 
 .lettersContainer {
-  width: 80%;
+  max-width: 70rem;
+  max-height: 11.5rem;
   font-size: 2.5rem;
   text-align: center;
   color: var(--text-inactive);
   font-weight: 500;
+  line-height: 1.5;
+  overflow: hidden;
 }
 
 .space-char {
-  font-size: 3rem;
+  padding: 0 1px;
 }
 
 .user-input {
@@ -111,12 +155,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  padding: 2rem;
 }
 
 .result {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  justify-items: center;
+  text-align: center;
   background-color: var(--nav-bg);
   padding: 2rem;
   border-radius: 5px;
@@ -133,6 +181,12 @@ body {
   font-weight: bold;
 }
 
+.time,
+.result__value {
+  color: #fff;
+  font-weight: bold;
+}
+
 /* utility */
 
 .active {
@@ -145,6 +199,10 @@ body {
 
 .error {
   color: var(--text-error);
+}
+
+.light-theme {
+  filter: invert(1);
 }
 
 .cursor {

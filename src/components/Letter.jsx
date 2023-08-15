@@ -1,5 +1,15 @@
-const Letter = ({ letter, colorState }) => {
-  return <span className={"letter " + colorState}>{letter}</span>;
+const Letter = ({ id, letter, colorState, domLetters }) => {
+  return (
+    <span
+      id={id}
+      className={"letter " + colorState}
+      ref={(letter) => {
+        domLetters[id] = letter;
+      }}
+    >
+      {letter}
+    </span>
+  );
 };
 
 export default Letter;
