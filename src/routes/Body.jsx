@@ -10,13 +10,13 @@ import Letter from "../components/Letter";
 
 const Body = () => {
   let [letters, setLetters] = useState([]);
+  let [lettersWrapperTop, setLettersWrapperTop] = useState(0);
   let [time, setTime] = useState(parseInt(window.$totalTime));
-  let [userKeysStack, setUserKeysStack] = useState([]);
   let [totalCharactersTyped, setTotalCharactersTyped] = useState(0);
   let [totalMistakes, setTotalMistakes] = useState(0);
   let [speedPerSec, setSpeedPerSec] = useState([]);
   const inputRef = useRef(null);
-  const domLetters = useRef({});
+  const lettersRef = useRef({});
 
   const navigate = useNavigate();
   const goToResult = () =>
@@ -28,7 +28,7 @@ const Body = () => {
       },
     });
   useEffect(() => {
-    let currentLetters = getLetters(totalWords, 150);
+    let currentLetters = getLetters(totalWords, 500);
     setLetters(currentLetters);
   }, []);
 
@@ -50,7 +50,7 @@ const Body = () => {
         setTime(--time);
       }, 1000);
     } else if (time === 0) {
-      // goToResult();
+      goToResult();
     }
   }, [time]);
 
@@ -58,25 +58,25 @@ const Body = () => {
     <main className="main" onClick={() => inputRef.current.focus()}>
       <Timer time={time} />
 
-      <div className="lettersContainer">
-        {letters.map((letterData) => (
-          <Letter
-            key={letterData.key}
-            id={letterData.key}
-            letter={letterData.letter}
-            colorState={
-              letterData.letter !== " "
-                ? letterData.colorState
-                : `${letterData.colorState} space-char`
-            }
-            domLetters={domLetters}
-          />
-        ))}
+      <div className="letters-container">
+        <div
+          className="letters-wrapper"
+          style={{ top: `${lettersWrapperTop}px` }}
+        >
+          {letters.map((letterData) => (
+            <Letter
+              key={letterData.key}
+              id={letterData.key}
+              letter={letterData.letter}
+              isCursor={letterData.cursor}
+              colorState={letterData.colorState}
+              lettersRef={lettersRef}
+            />
+          ))}
+        </div>
       </div>
 
       <UserInput
-        userKeysStack={userKeysStack}
-        setUserKeysStack={setUserKeysStack}
         letters={letters}
         setLetters={setLetters}
         time={time}
@@ -88,7 +88,8 @@ const Body = () => {
         speedPerSec={speedPerSec}
         setSpeedPerSec={setSpeedPerSec}
         inputRef={inputRef}
-        domLetters={domLetters}
+        lettersRef={lettersRef}
+        setLettersWrapperTop={setLettersWrapperTop}
       />
     </main>
   );

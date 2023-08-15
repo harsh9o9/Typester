@@ -1,10 +1,12 @@
-const Letter = ({ id, letter, colorState, domLetters }) => {
+const Letter = ({ id, letter, colorState, lettersRef, isCursor }) => {
   return (
     <span
       id={id}
-      className={"letter " + colorState}
+      className={`letter ${colorState} ${letter === " " ? "space-char" : ""} ${
+        isCursor ? "cursor" : ""
+      }`}
       ref={(letter) => {
-        domLetters[id] = letter;
+        lettersRef[id] = letter;
       }}
     >
       {letter}

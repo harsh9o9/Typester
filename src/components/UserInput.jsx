@@ -1,14 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { calculateTypingSpeed } from "../util/typing";
 
-const keyIdHash = [];
-const nextLineIndexes = [];
 /* eslint-disable jsx-a11y/no-autofocus */
 let startTimer;
 
 const UserInput = ({
-  userKeysStack,
-  setUserKeysStack,
   letters,
   setLetters,
   time,
@@ -20,28 +16,34 @@ const UserInput = ({
   speedPerSec,
   setSpeedPerSec,
   inputRef,
-  domLetters,
+  lettersRef,
+  setLettersWrapperTop,
 }) => {
+  let [currentElementIndex, setCurrentElementIndex] = useState(-1);
+  let [lineNumber, setLineNumber] = useState(1);
+
   useEffect(() => {
     startTimer = true;
   }, []);
 
-  const handleLineUpdate = (id, index) => {
-    if (!keyIdHash.includes(id)) {
-      keyIdHash.push(id);
+  // handle line update
+  const handleLineUpdate = (userKey, currentLetterId) => {
+    let spaceEl = lettersRef[currentLetterId];
+    let spaceOffsetHeight = spaceEl.offsetHeight;
+    let spaceSibiling = spaceEl.nextSibling;
+    let spaceElOffsetTop = spaceEl.offsetTop;
+    let spaceSibilingOffsetTop = spaceSibiling.offsetTop;
 
-      let spaceEl = domLetters[id];
-      let spaceSibiling = spaceEl.nextSibling;
-      let spaceElOffsetTop = spaceEl.offsetTop;
-      let spaceSibilingOffsetTop = spaceSibiling.offsetTop;
-
-      console.log(id);
-      console.log(spaceEl);
-      // debugger;
-      if (spaceElOffsetTop !== spaceSibilingOffsetTop) {
-        console.log("end of line");
-        if (!nextLineIndexes.includes(index)) {
-          nextLineIndexes.push(id);
+    if (spaceElOffsetTop !== spaceSibilingOffsetTop) {
+      if (userKey === "Backspace") {
+        setLineNumber(--lineNumber);
+        if (lineNumber > 1) {
+          setLettersWrapperTop((lineNumber - 2) * spaceOffsetHeight * -1);
+        }
+      } else {
+        setLineNumber(++lineNumber);
+        if (lineNumber > 2) {
+          setLettersWrapperTop((lineNumber - 2) * spaceOffsetHeight * -1);
         }
       }
     }
@@ -50,20 +52,16 @@ const UserInput = ({
   const handleKeyPress = (event) => {
     const { key } = event;
 
-    // maintaining copy of keystack
-    let updatedStack = [];
+    setTotalCharactersTyped(++totalCharactersTyped);
 
-    if (userKeysStack) {
+    if (key.length === 1 || key === "Backspace") {
+      // updating current element index
       if (key === "Backspace") {
-        if (userKeysStack.length > 0) {
-          updatedStack = [...userKeysStack];
-          updatedStack.pop();
-          setUserKeysStack(updatedStack);
+        if (currentElementIndex > -1) {
+          setCurrentElementIndex(--currentElementIndex);
         }
       } else if (key.length === 1) {
-        updatedStack = [...userKeysStack, key];
-        setUserKeysStack(updatedStack);
-        setTotalCharactersTyped(++totalCharactersTyped);
+        setCurrentElementIndex(++currentElementIndex);
       }
 
       // to start timer when first key is pressed
@@ -87,27 +85,39 @@ const UserInput = ({
         startTimer = false;
       }
 
-      // handle all key checking, right wrong logic
       let copyLetters = letters;
-      let tempMistakes = 0;
-      for (let i = 0; i < Math.min(totalCharactersTyped, letters.length); i++) {
-        if (i < updatedStack.length) {
-          if (copyLetters[i].letter === updatedStack[i]) {
-            copyLetters[i].colorState =
-              i == updatedStack.length - 1 ? "active cursor" : "active";
-          } else {
-            tempMistakes++;
-            copyLetters[i].colorState =
-              i == updatedStack.length - 1 ? "error cursor" : "error";
-          }
-          if (key === " " && copyLetters[i].letter === " ") {
-            handleLineUpdate(copyLetters[i].key, i);
-          }
+      if (currentElementIndex < copyLetters.length) {
+        // handle all key checking, right wrong logic
+
+        if (key === "Backspace") {
+          // making previous element inactive and removing cursor from it
+          copyLetters[currentElementIndex + 1].colorState = "inactive";
+          copyLetters[currentElementIndex + 1].cursor = false;
+        } else if (key === copyLetters[currentElementIndex].letter) {
+          copyLetters[currentElementIndex].colorState = "active";
         } else {
-          copyLetters[i].colorState = "inactive";
+          setTotalMistakes(++totalMistakes);
+          copyLetters[currentElementIndex].colorState = "error";
+        }
+
+        // showing cursor on current active element, if there is element
+        if (currentElementIndex >= 0) {
+          copyLetters[currentElementIndex].cursor = true;
+        }
+
+        // removing cursor from previous element if there is any previous element
+        if (currentElementIndex >= 1) {
+          copyLetters[currentElementIndex - 1].cursor = false;
+        }
+
+        // handling line change here
+        if (
+          currentElementIndex >= 0 &&
+          copyLetters[currentElementIndex].letter === " "
+        ) {
+          handleLineUpdate(key, copyLetters[currentElementIndex].key);
         }
       }
-      if (tempMistakes >= totalMistakes) setTotalMistakes(tempMistakes);
       setLetters(copyLetters);
     }
   };

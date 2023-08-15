@@ -598,6 +598,7 @@ function _getLettersArray(wordArray) {
         key: uuidv4(),
         letter: letter,
         colorState: "inactive",
+        cursor: false,
       };
       letterArray.push(data);
     }
@@ -607,6 +608,7 @@ function _getLettersArray(wordArray) {
         key: uuidv4(),
         letter: " ",
         colorState: "inactive",
+        cursor: false,
       });
     }
   }
