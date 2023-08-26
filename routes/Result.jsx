@@ -10,7 +10,6 @@ const Result = () => {
   const speedPerSec = location?.state?.speedPerSec;
   return (
     <div className="result-container">
-      {console.log(speedPerSec)}
       <RenderLineChart speedPerSec={speedPerSec} />
 
       <div className="result">
