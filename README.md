@@ -1,5 +1,5 @@
 # TYPESTER:
-A simple typing practice website. ([link](typester-alpha.vercel.app))
+A simple typing practice website. ([link](https://typester-seven.vercel.app/))
 
 ## FEATURES:
 - Timer
