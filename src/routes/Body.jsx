@@ -74,23 +74,23 @@ const Body = () => {
             />
           ))}
         </div>
-      </div>
 
-      <UserInput
-        letters={letters}
-        setLetters={setLetters}
-        time={time}
-        setTime={setTime}
-        totalCharactersTyped={totalCharactersTyped}
-        setTotalCharactersTyped={setTotalCharactersTyped}
-        totalMistakes={totalMistakes}
-        setTotalMistakes={setTotalMistakes}
-        speedPerSec={speedPerSec}
-        setSpeedPerSec={setSpeedPerSec}
-        inputRef={inputRef}
-        lettersRef={lettersRef}
-        setLettersWrapperTop={setLettersWrapperTop}
-      />
+        <UserInput
+          letters={letters}
+          setLetters={setLetters}
+          time={time}
+          setTime={setTime}
+          totalCharactersTyped={totalCharactersTyped}
+          setTotalCharactersTyped={setTotalCharactersTyped}
+          totalMistakes={totalMistakes}
+          setTotalMistakes={setTotalMistakes}
+          speedPerSec={speedPerSec}
+          setSpeedPerSec={setSpeedPerSec}
+          inputRef={inputRef}
+          lettersRef={lettersRef}
+          setLettersWrapperTop={setLettersWrapperTop}
+        />
+      </div>
     </main>
   );
 };

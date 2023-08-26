@@ -564,28 +564,6 @@ function _getRandomWords(words, count) {
   return randomWords;
 }
 
-function _convertWordsToLetters(words) {
-  return words.map((word) => {
-    let letters = [...word];
-    let lettersArray = letters.map((letter) => {
-      return { key: uuidv4(), letter: letter, colorState: "inactive" };
-    });
-    return { key: uuidv4(), word: word, letters: lettersArray };
-  });
-}
-
-export function getWords(totalWords, count) {
-  let randomWords = _getRandomWords(totalWords, count);
-  let finalWordsList = _convertWordsToLetters(randomWords);
-  return finalWordsList;
-}
-
-export function getLetters(totalWords, count) {
-  let randomWords = _getRandomWords(totalWords, count);
-  let finalWordsList = _getLettersArray(randomWords);
-  return finalWordsList;
-}
-
 function _getLettersArray(wordArray) {
   var letterArray = [];
 
@@ -614,4 +592,10 @@ function _getLettersArray(wordArray) {
   }
 
   return letterArray;
+}
+
+export function getLetters(totalWords, count) {
+  let randomWords = _getRandomWords(totalWords, count);
+  let finalWordsList = _getLettersArray(randomWords);
+  return finalWordsList;
 }

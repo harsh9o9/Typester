@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { calculateTypingSpeed } from "../util/typing";
-import RenderLineChart from "../components/resultGraph";
+import RenderLineChart from "../components/RenderLineChart";
 
 const Result = () => {
   const location = useLocation();
@@ -8,9 +8,9 @@ const Result = () => {
   const totalCharactersTyped = location?.state?.totalCharactersTyped;
   const totalMistakes = location?.state?.totalMistakes;
   const speedPerSec = location?.state?.speedPerSec;
-  console.log(location, speedPerSec);
   return (
     <div className="result-container">
+      {console.log(speedPerSec)}
       <RenderLineChart speedPerSec={speedPerSec} />
 
       <div className="result">
